@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission with E-Signature</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Submit Your Form</h1>
+    <form id="form" enctype="multipart/form-data">
+        <!-- Input fields -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+
+        <!-- Image upload -->
+        <label for="photo">Upload Picture:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required>
+        <br><br>
+
+        <!-- Comment -->
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment" rows="4" required></textarea>
+        <br><br>
+
+        <!-- E-signature -->
+        <label for="signature">Signature:</label>
+        <canvas id="signature-pad" width="400" height="200" style="border: 1px solid #000;"></canvas>
+        <button type="button" id="clear-signature">Clear</button>
+        <input type="hidden" id="signature" name="signature">
+
+        <br><br>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
