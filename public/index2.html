@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission with PDF Generation</title>
+</head>
+<body>
+    <h1>Submit Form to Generate PDF</h1>
+
+    <form id="user-form" method="POST" enctype="multipart/form-data" action="/submit">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="photo">Upload Photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required><br><br>
+
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+
+        <label for="signature">Signature:</label>
+        <canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas><br>
+        <button type="button" id="clear-signature">Clear Signature</button>
+        <input type="hidden" id="signature" name="signature">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const signatureInput = document.getElementById('signature');
+        const clearButton = document.getElementById('clear-signature');
+        let isDrawing = false;
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', drawSignature);
+
+        function drawSignature(event) {
+            if (!isDrawing) return;
+            const ctx = canvas.getContext('2d');
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        }
+
+        clearButton.addEventListener('click', function () {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        document.getElementById('user-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            signatureInput.value = canvas.toDataURL();  // Capture the signature as Base64
+            this.submit();  // Submit the form
+        });
+    </script>
+</body>
+</html>

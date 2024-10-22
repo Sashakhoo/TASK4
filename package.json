@@ -10,11 +10,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "express": "^4.21.1",
+    "handlebars": "^4.7.8",
     "jsdom": "^25.0.1",
     "jspdf": "^2.5.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
-    "pdfkit": "^0.15.0"
+    "pdfkit": "^0.15.0",
+    "puppeteer": "^23.6.0"
   }
 }

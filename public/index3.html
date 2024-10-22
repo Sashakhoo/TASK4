@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission - Generate PDF</title>
+</head>
+<body>
+    <h1>Fill in the Form to Generate a Detailed Report</h1>
+
+    <form id="user-form" method="POST" enctype="multipart/form-data" action="/submit">
+        <!-- Details Section -->
+        <label for="templateName">Template Name:</label>
+        <input type="text" id="templateName" name="templateName" required><br><br>
+
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName" required><br><br>
+
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" required><br><br>
+
+        <label for="creationDate">Creation Date:</label>
+        <input type="date" id="creationDate" name="creationDate" required><br><br>
+
+        <label for="creatorName">Creator & Company Name:</label>
+        <input type="text" id="creatorName" name="creatorName" required><br><br>
+
+        <label for="lastModifiedDate">Last Modified Date:</label>
+        <input type="date" id="lastModifiedDate" name="lastModifiedDate" required><br><br>
+
+        <!-- Workflow History Section -->
+        <h3>Workflow History</h3>
+        <label for="workflowStatus">Status:</label>
+        <input type="text" id="workflowStatus" name="workflowStatus" required><br><br>
+
+        <label for="workflowName">Name:</label>
+        <input type="text" id="workflowName" name="workflowName" required><br><br>
+
+        <label for="workflowLocation">Location:</label>
+        <input type="text" id="workflowLocation" name="workflowLocation"><br><br>
+
+        <label for="signature">Signature:</label>
+        <canvas id="signature-pad" width="400" height="200" style="border: 1px solid black;"></canvas><br>
+        <button type="button" id="clear-signature">Clear Signature</button>
+        <input type="hidden" id="signature" name="signature">
+
+        <!-- Daily Site Report Section -->
+        <h3>Daily Site Report - General Information</h3>
+        <label for="inspectionDateTime">Date and Time of Inspection:</label>
+        <input type="datetime-local" id="inspectionDateTime" name="inspectionDateTime"><br><br>
+
+        <label for="siteLocation">Site Location:</label>
+        <input type="text" id="siteLocation" name="siteLocation"><br><br>
+
+        <label for="clientName">Client Name:</label>
+        <input type="text" id="clientName" name="clientName"><br><br>
+
+        <label for="numWorkers">Number of Workers:</label>
+        <input type="number" id="numWorkers" name="numWorkers"><br><br>
+
+        <!-- Site Progress Section -->
+        <h3>Site Progress</h3>
+        <label for="generalActivities">General Site Activities:</label>
+        <textarea id="generalActivities" name="generalActivities"></textarea><br><br>
+
+        <label for="sitePhotos">Site Photos:</label>
+        <input type="file" id="sitePhotos" name="sitePhotos"><br><br>
+
+        <label for="remarks">Remarks:</label>
+        <textarea id="remarks" name="remarks"></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const signatureInput = document.getElementById('signature');
+        const clearButton = document.getElementById('clear-signature');
+        let isDrawing = false;
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', drawSignature);
+
+        function drawSignature(event) {
+            if (!isDrawing) return;
+            const ctx = canvas.getContext('2d');
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        }
+
+        clearButton.addEventListener('click', function () {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    </script>
+    <link rel="stylesheet" href="styles.css">
+
+</body>
+</html>

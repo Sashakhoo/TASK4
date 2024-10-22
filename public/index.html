@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Submission with E-Signature</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Report Form</title>
 </head>
 <body>
-    <h1>Submit Your Form</h1>
-    <form id="form" enctype="multipart/form-data">
-        <!-- Input fields -->
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br><br>
+    <h1>Fill in the Report Details</h1>
+    <form action="/generate-pdf" method="POST">
+        <label for="reportTitle">Report Title:</label><br>
+        <input type="text" id="reportTitle" name="reportTitle"><br><br>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br><br>
+        <label for="projectName">Project Name:</label><br>
+        <input type="text" id="projectName" name="projectName"><br><br>
 
-        <!-- Image upload -->
-        <label for="photo">Upload Picture:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" required>
-        <br><br>
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location"><br><br>
 
-        <!-- Comment -->
-        <label for="comment">Comment:</label>
-        <textarea id="comment" name="comment" rows="4" required></textarea>
-        <br><br>
+        <label for="insulationBefore">Insulation Resistance (Before):</label><br>
+        <input type="text" id="insulationBefore" name="insulationBefore"><br><br>
 
-        <!-- E-signature -->
-        <label for="signature">Signature:</label>
-        <canvas id="signature-pad" width="400" height="200" style="border: 1px solid #000;"></canvas>
-        <button type="button" id="clear-signature">Clear</button>
-        <input type="hidden" id="signature" name="signature">
+        <label for="resultBefore">Result (Before):</label><br>
+        <input type="text" id="resultBefore" name="resultBefore"><br><br>
 
-        <br><br>
+        <label for="dielectricValue">Dielectric Strength Value:</label><br>
+        <input type="text" id="dielectricValue" name="dielectricValue"><br><br>
 
-        <!-- Submit button -->
-        <button type="submit">Submit</button>
+        <label for="dielectricResult">Dielectric Strength Result:</label><br>
+        <input type="text" id="dielectricResult" name="dielectricResult"><br><br>
+
+        <label for="testedBy">Tested By:</label><br>
+        <input type="text" id="testedBy" name="testedBy"><br><br>
+
+        <label for="testDate">Test Date:</label><br>
+        <input type="date" id="testDate" name="testDate"><br><br>
+
+        <input type="submit" value="Generate PDF">
     </form>
-
-    <script src="script.js"></script>
 </body>
 </html>
