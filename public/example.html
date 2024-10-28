@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Test Report</title>
     <style>
         body {
@@ -28,12 +29,20 @@
         th {
             background-color: #f2f2f2;
         }
+        .logo {
+            width: 100px;
+            position: center;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
         .signature {
             margin-top: 50px;
         }
     </style>
 </head>
 <body>
+    <img src="{{logo}}" alt="Logo" class="logo">
+
     <h1>{{reportTitle}}</h1>
     <div class="report-section">
         <h2>Project Information</h2>
@@ -68,9 +77,16 @@
             </tr>
         </table>
     </div>
-    <div class="signature">
-        <p>Tested By: {{testedBy}}</p>
-        <p>Date: {{testDate}}</p>
+
+    <div class="report-section">
+        <h2>Site Photo</h2>
+        <img src="{{photo}}" alt="Uploaded Photo" style="max-width: 200px; height: auto; border: 1px solid #ddd; border-radius: 4px; display: block; margin: 0 auto;">
     </div>
+
+    <div class="signature">
+        <p>Signature:</p>
+        <img src="{{signature}}" alt="Signature">
+    </div>
+    
 </body>
 </html>

@@ -1,92 +1,146 @@
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    background-color: #f7f9fc;
     color: #333;
+    display: flex;
+    justify-content: center;
 }
 
-.form-container {
-    background-color: #ffffff;
-    padding: 20px;
+/* Center container for the form */
+.container {
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
-h1, h3 {
+/* Header styling */
+h1 {
     text-align: center;
+    font-size: 24px;
     color: #333;
     margin-bottom: 20px;
 }
 
-label {
-    font-weight: bold;
-    display: block;
-    margin-top: 15px;
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
 }
 
+/* Labels */
+label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+/* Input fields */
 input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="datetime-local"],
-input[type="number"],
-input[type="file"],
-textarea {
-    width: 100%;
+input[type="date"] {
+    font-size: 16px;
     padding: 10px;
-    margin-top: 5px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 100%;
     box-sizing: border-box;
 }
 
-textarea {
-    resize: vertical;
+input[type="text"]:focus,
+input[type="date"]:focus {
+    outline: none;
+    border-color: #007bff;
 }
 
-button {
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 10px 20px;
+/* Signature canvas */
+#signature-pad {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    display: block;
+    width: 400px;
+    height: 200px;
+}
+
+/* Clear Signature Button */
+button#clear-signature {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+button#clear-signature:hover {
+    background-color: #d32f2f;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 15px;
-    width: 30%;
-    box-sizing: border-box;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/*
-#clear-signature {
-    background-color: #dc3545;
-    color: #ffffff;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    text-align: center;
     margin-top: 10px;
 }
 
-#clear-signature:hover {
-    background-color: #c82333;
+input[type="submit"]:hover {
+    background-color: #45a049;
 }
 
-#signature-pad {
-    border: 2px dashed #ccc;
-    margin-top: 5px;
-    width: 100%;
-    height: 150px;
+/* Logo styling */
+.logo {
+    width: 80px;
+    position: center;
+    display: block;
+    margin: 0 auto 20px auto;
 }
-*/
-h3 {
-    font-size: 1.2em;
-    margin-top: 30px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 5px;
-    color: #007bff;
+
+/* Photo upload and preview styling */
+#photoPreviewContainer {
+    margin-top: 10px;
+}
+
+#photoPreview {
+    max-width: 80%;
+    max-height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.photo {
+    max-width: 15px;  
+    max-height: 30px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    input[type="text"],
+    input[type="date"],
+    #signature-pad {
+        font-size: 14px;
+    }
 }

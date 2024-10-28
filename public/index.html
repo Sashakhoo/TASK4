@@ -3,39 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Report Form</title>
 </head>
 <body>
-    <h1>Fill in the Report Details</h1>
-    <form action="/generate-pdf" method="POST">
-        <label for="reportTitle">Report Title:</label><br>
-        <input type="text" id="reportTitle" name="reportTitle"><br><br>
+    <div class="container">
+        <h1>Fill in the Report Details</h1>
+        <form action="/generate-pdf" method="POST" enctype="multipart/form-data" onsubmit="saveSignature()">
+            <label for="reportTitle">Report Title:</label>
+            <input type="text" id="reportTitle" name="reportTitle">
 
-        <label for="projectName">Project Name:</label><br>
-        <input type="text" id="projectName" name="projectName"><br><br>
+            <label for="projectName">Project Name:</label>
+            <input type="text" id="projectName" name="projectName">
 
-        <label for="location">Location:</label><br>
-        <input type="text" id="location" name="location"><br><br>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location">
 
-        <label for="insulationBefore">Insulation Resistance (Before):</label><br>
-        <input type="text" id="insulationBefore" name="insulationBefore"><br><br>
+            <label for="insulationBefore">Insulation Resistance (Before):</label>
+            <input type="text" id="insulationBefore" name="insulationBefore">
 
-        <label for="resultBefore">Result (Before):</label><br>
-        <input type="text" id="resultBefore" name="resultBefore"><br><br>
+            <label for="resultBefore">Result (Before):</label>
+            <input type="text" id="resultBefore" name="resultBefore">
 
-        <label for="dielectricValue">Dielectric Strength Value:</label><br>
-        <input type="text" id="dielectricValue" name="dielectricValue"><br><br>
+            <label for="dielectricValue">Dielectric Strength Value:</label>
+            <input type="text" id="dielectricValue" name="dielectricValue">
 
-        <label for="dielectricResult">Dielectric Strength Result:</label><br>
-        <input type="text" id="dielectricResult" name="dielectricResult"><br><br>
+            <label for="dielectricResult">Dielectric Strength Result:</label>
+            <input type="text" id="dielectricResult" name="dielectricResult">
 
-        <label for="testedBy">Tested By:</label><br>
-        <input type="text" id="testedBy" name="testedBy"><br><br>
+            <!-- New Photo Upload Section -->
+            <label for="photoUpload">Upload Photo:</label><br>
+            <input type="file" id="photoUpload" name="photoUpload" accept="image/*" onchange="previewImage(event)"><br><br>
+            <div id="photoPreviewContainer">
+                <img id="photoPreview" style="max-width: 80%; margin-top: 10px;" />
+            </div>
 
-        <label for="testDate">Test Date:</label><br>
-        <input type="date" id="testDate" name="testDate"><br><br>
+            <label for="testedBy">Tested By:</label>
+            <input type="text" id="testedBy" name="testedBy">
 
-        <input type="submit" value="Generate PDF">
-    </form>
+            <label for="testDate">Test Date:</label>
+            <input type="date" id="testDate" name="testDate">
+
+            <label for="signature">Signature:</label>
+            <canvas id="signature-pad"></canvas>
+            <button type="button" id="clear-signature">Clear Signature</button>
+            <input type="hidden" id="signature" name="signature">
+
+            <input type="submit" value="Generate PDF">
+        </form>
+    </div>
+    <!-- Signature Capture Script -->
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const signatureInput = document.getElementById('signature');
+        const clearButton = document.getElementById('clear-signature');
+        let isDrawing = false;
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', drawSignature);
+
+        function drawSignature(event) {
+            if (!isDrawing) return;
+            const ctx = canvas.getContext('2d');
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+        }
+
+        clearButton.addEventListener('click', function () {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+        });
+
+        function saveSignature() {
+            const dataURL = canvas.toDataURL('image/png');
+            document.getElementById('signature').value = dataURL;
+        }
+    </script>
 </body>
 </html>
