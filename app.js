@@ -5,7 +5,7 @@ const path = require('path');
 const multer = require('multer');
 const handlebars = require('handlebars');
 const bodyParser = require('body-parser');
-const { PDFDocument } = require('pdf-lib'); // Using pdf-lib to create a PDF with attachments
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -15,6 +15,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure multer for file upload
 const upload = multer({ dest: 'uploads/' });  // Temp directory for uploaded photos
+
+// Configure nodemailer for email sending
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sashakhoo8@gmail.com',
+        pass: 'jmuaijcieurcqrqr'
+    }
+});
 
 // Serve the form to the user
 app.get('/', (req, res) => {
@@ -44,7 +53,7 @@ app.post('/generate-pdf', upload.single('photoUpload'), async (req, res) => {
             testedBy: req.body.testedBy,
             testDate: req.body.testDate,
             signature: req.body.signature,
-            logo: logoData  // Embed logo as base64
+            logo: logoData  
         };
 
         // Convert uploaded photo to base64 and include it in data if available
@@ -68,19 +77,46 @@ app.post('/generate-pdf', upload.single('photoUpload'), async (req, res) => {
         });
         await browser.close();
 
-        // Send the generated PDF to the client
-        res.set({
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment; filename=report.pdf',
-            'Content-Length': pdfBuffer.length
+        // Save the PDF file to a temporary location
+        const pdfPath = path.join(__dirname, 'GeneratedReport.pdf');
+        fs.writeFileSync(pdfPath, pdfBuffer);
+
+        // Set up email data with user-provided recipient email
+        const mailOptions = {
+            from: 'sashakhoo8@gmail.com',
+            to: req.body.receiverEmail,
+            subject: 'Test Report',
+            text: 'Please find attached the test report.',
+            attachments: [
+                {
+                    filename: 'GeneratedReport.pdf',
+                    path: pdfPath
+                }
+            ]
+        };
+
+        // Send email with attachment
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                res.status(500).send('Failed to send email.');
+            } else {
+                console.log('Email sent:', info.response);
+                fs.unlinkSync(pdfPath);  // Clean up temporary PDF file after sending email
+                res.set({
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename=report.pdf',
+                    'Content-Length': pdfBuffer.length
+                });
+                res.end(pdfBuffer);
+            }
         });
-        res.end(pdfBuffer);
+
     } catch (error) {
         console.error('Error generating PDF:', error.message, error.stack);
         res.status(500).send('An error occurred while generating the PDF.');
     }
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;

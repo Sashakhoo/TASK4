@@ -9,12 +9,12 @@
 <body>
     <div class="container">
         <h1>Fill in the Report Details</h1>
-        <form action="/generate-pdf" method="POST" enctype="multipart/form-data" onsubmit="saveSignature()">
+        <form action="/generate-pdf" method="POST" enctype="multipart/form-data" onsubmit="showPopup(); saveSignature();">
             <label for="reportTitle">Report Title:</label>
-            <input type="text" id="reportTitle" name="reportTitle">
+            <input type="text" id="reportTitle" name="reportTitle" required>
 
             <label for="projectName">Project Name:</label>
-            <input type="text" id="projectName" name="projectName">
+            <input type="text" id="projectName" name="projectName" required>
 
             <label for="location">Location:</label>
             <input type="text" id="location" name="location">
@@ -31,7 +31,6 @@
             <label for="dielectricResult">Dielectric Strength Result:</label>
             <input type="text" id="dielectricResult" name="dielectricResult">
 
-            <!-- New Photo Upload Section -->
             <label for="photoUpload">Upload Photo:</label><br>
             <input type="file" id="photoUpload" name="photoUpload" accept="image/*" onchange="previewImage(event)"><br><br>
             <div id="photoPreviewContainer">
@@ -49,11 +48,18 @@
             <button type="button" id="clear-signature">Clear Signature</button>
             <input type="hidden" id="signature" name="signature">
 
+            <label for="receiverEmail">Recipient Email:</label>
+            <input type="email" id="receiverEmail" name="receiverEmail" required>
+
             <input type="submit" value="Generate PDF">
         </form>
     </div>
-    <!-- Signature Capture Script -->
+    
     <script>
+        function showPopup() {
+            alert("Your form has been submitted and the PDF is being generated.");
+        }
+
         const canvas = document.getElementById('signature-pad');
         const signatureInput = document.getElementById('signature');
         const clearButton = document.getElementById('clear-signature');
